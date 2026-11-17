@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohammad Nashit Shah | UAV Systems & Control Engineer</title>
+<meta name="description" content="Mohammad Nashit Shah, UAV systems and control engineer: nonlinear and fault-tolerant flight control, tethered UAV power systems, publications and flight tests.">
+<meta name="author" content="Mohammad Nashit Shah">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column (max 1080px) opened by a cockpit-instrument hero; sections ruled like a flight-test log, mono labels as telemetry readouts. */
+:root{
+  --bg:#F3F6F9; --surface:#FFFFFF; --ink:#13212F; --muted:#526273; --line:#D5DDE5;
+  --accent:#0A6C8F; --accent-soft:#E1EFF5; --amber:#B8730C; --sky:#4C93C2; --ground:#7A5A3A;
+  --display:"Saira","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D151D; --surface:#14202B; --ink:#E4ECF2; --muted:#93A4B4; --line:#253645;
+  --accent:#4CB8DD; --accent-soft:#16303D; --amber:#E6A23C; --sky:#2F6E99; --ground:#6A4C30; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D151D; --surface:#14202B; --ink:#E4ECF2; --muted:#93A4B4; --line:#253645;
+  --accent:#4CB8DD; --accent-soft:#16303D; --amber:#E6A23C; --sky:#2F6E99; --ground:#6A4C30; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0}
+img,video{max-width:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* nav */
+nav{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center;justify-content:space-between;padding-block:20px;border-bottom:1px solid var(--line)}
+nav .mark{font-family:var(--display);font-weight:700;letter-spacing:.04em}
+nav ul{display:flex;flex-wrap:wrap;gap:4px 18px;list-style:none;margin:0;padding:0}
+nav ul a{color:var(--muted);text-decoration:none;font-size:14px}
+nav ul a:hover{color:var(--accent)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding-block:56px 48px}
+.hero>div{min-width:0}
+.hero h1{font-size:clamp(36px,6vw,60px);font-weight:700;letter-spacing:-.01em}
+.hero .role{font-family:var(--display);font-size:clamp(18px,2.4vw,22px);font-weight:500;color:var(--accent);margin:10px 0 18px}
+.hero p.lead{max-width:62ch;color:var(--muted);margin:0 0 24px}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface);cursor:pointer;font-family:var(--body)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.vids{display:grid;grid-template-columns:minmax(0,300px);gap:12px}
+.vids figure{margin:0;min-width:0}
+.vids video{display:block;width:100%;max-width:100%;aspect-ratio:480/848;object-fit:cover;border-radius:8px;background:var(--ink);border:1px solid var(--line)}
+.vids figcaption{margin-top:6px}
+.adi{width:220px;max-width:100%}
+.adi svg{display:block;width:100%;height:auto}
+.adi .cap{text-align:center;margin-top:8px}
+#horizon{transform-origin:100px 100px;animation:bank 9s ease-in-out infinite}
+@keyframes bank{0%,100%{transform:rotate(-6deg) translateY(4px)}50%{transform:rotate(7deg) translateY(-5px)}}
+@media (prefers-reduced-motion:reduce){#horizon{animation:none}}
+
+/* readout strip */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.strip div{padding:16px 18px;border-left:1px solid var(--line);min-width:0}
+.strip div:first-child{border-left:0}
+.strip b{display:block;font-family:var(--mono);font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}
+.strip span{font-size:13px;color:var(--muted)}
+
+/* sections */
+section{padding-block:64px 8px}
+.sec-head{display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:28px}
+.sec-head h2{font-size:28px;font-weight:600}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.cols>*{min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.chips li{font-size:14px;padding:5px 12px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+
+/* projects */
+.feature{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:28px;margin-bottom:24px}
+.feature>*{min-width:0}
+.feature h3{font-size:24px;font-weight:600;margin:6px 0 10px}
+.feature ul{margin:12px 0 0;padding-left:18px;color:var(--muted)}
+.feature ul li{margin-bottom:6px}
+.eq{font-family:var(--mono);font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:14px 16px;overflow-x:auto;white-space:nowrap}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px;margin:0}
+.spec dt{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.spec dd{margin:0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{border-top:2px solid var(--ink);padding-top:14px;min-width:0}
+.card h3{font-size:19px;font-weight:600;margin:4px 0 8px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tags span{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:2px 6px}
+
+/* publications */
+.pub{display:grid;grid-template-columns:80px 1fr;gap:20px;padding-block:20px;border-bottom:1px solid var(--line)}
+.pub>*{min-width:0}
+.pub .yr{font-family:var(--mono);font-size:20px;color:var(--amber)}
+.pub h3{font-family:var(--body);font-size:18px;font-weight:600;line-height:1.4}
+.pub .meta{margin:6px 0;color:var(--muted);font-size:15px}
+.pub .meta i{color:var(--ink)}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:170px 1fr;gap:20px;padding-block:18px;border-bottom:1px dashed var(--line)}
+.tl li>*{min-width:0}
+.tl .when{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:3px}
+.tl h3{font-family:var(--body);font-size:17px;font-weight:600}
+.tl .org{color:var(--accent);font-size:15px}
+.tl p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.now{font-family:var(--mono);font-size:11px;color:var(--amber);border:1px solid var(--amber);border-radius:4px;padding:1px 6px;margin-left:8px;vertical-align:2px}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 40px}
+.skills>div{min-width:0}
+.skills h3{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.skills p{margin:0;font-size:15px}
+
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.edu>div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px;min-width:0}
+.edu h3{font-size:20px;font-weight:600;margin:4px 0}
+.edu p{margin:4px 0;color:var(--muted);font-size:15px}
+.plain{margin:0;padding-left:18px}
+.plain li{margin-bottom:8px}
+
+/* contact */
+.contact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:32px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;margin-block:64px 32px}
+.contact>div{min-width:0}
+.contact h2{font-size:28px;font-weight:600}
+.email{font-family:var(--mono);font-size:16px;user-select:all;word-break:break-all}
+footer{padding-block:24px 40px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding-block:36px 32px}
+  .adi{width:170px}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip div:nth-child(3){border-left:0}
+  .strip div:nth-child(n+3){border-top:1px solid var(--line)}
+  .cols,.feature,.edu,.skills,.contact{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr 1fr}
+  .tl li{grid-template-columns:1fr;gap:4px}
+}
+@media (max-width:520px){
+  .grid3{grid-template-columns:1fr}
+  .pub{grid-template-columns:1fr;gap:6px}
+  .feature,.contact{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<nav aria-label="Main">
+  <span class="mark">M. N. SHAH</span>
+  <ul>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="label">Islamabad, Pakistan · Research Officer, NASTP</div>
+    <h1 style="margin-top:10px">Mohammad Nashit Shah</h1>
+    <div class="role">UAV Systems &amp; Control Engineer</div>
+    <p class="lead">I design nonlinear and fault-tolerant flight controllers for multirotor UAVs and take them from MATLAB/Simulink to controller-in-the-loop testing and real flight. I also build the power side: I led a tethered UAV that carried 220&nbsp;V&nbsp;AC up the tether to an airborne 1000&nbsp;W converter. I want to apply this mix of control, power electronics and flight testing to hybrid-electric propulsion and energy management for next-generation UAVs.</p>
+    <div class="cta">
+      <a class="btn primary" href="#contact">Get in touch</a>
+      <a class="btn" href="https://doi.org/10.1016/j.eswa.2025.130251" target="_blank" rel="noopener">Latest paper ↗</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=91til5YAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a class="btn" href="https://www.linkedin.com/in/mohammad-nashit-shah-b78a59150/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </div>
+  <figure class="adi" aria-label="Attitude indicator illustration" style="margin:0">
+    <svg viewBox="0 0 200 200" role="img" aria-hidden="true">
+      <defs><clipPath id="dial"><circle cx="100" cy="100" r="84"/></clipPath></defs>
+      <circle cx="100" cy="100" r="96" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+      <g clip-path="url(#dial)">
+        <g id="horizon">
+          <rect x="-60" y="-60" width="320" height="160" fill="var(--sky)"/>
+          <rect x="-60" y="100" width="320" height="160" fill="var(--ground)"/>
+          <line x1="-60" y1="100" x2="260" y2="100" stroke="#fff" stroke-width="2"/>
+          <g stroke="#fff" stroke-width="1.5">
+            <line x1="85" y1="80" x2="115" y2="80"/><line x1="92" y1="90" x2="108" y2="90"/>
+            <line x1="92" y1="110" x2="108" y2="110"/><line x1="85" y1="120" x2="115" y2="120"/>
+          </g>
+        </g>
+      </g>
+      <circle cx="100" cy="100" r="84" fill="none" stroke="var(--ink)" stroke-width="3"/>
+      <g stroke="var(--ink)" stroke-width="2">
+        <line x1="100" y1="10" x2="100" y2="22"/>
+        <line x1="55" y1="22" x2="61" y2="32"/><line x1="145" y1="22" x2="139" y2="32"/>
+        <line x1="22" y1="55" x2="32" y2="61"/><line x1="178" y1="55" x2="168" y2="61"/>
+      </g>
+      <g fill="none" stroke="var(--amber)" stroke-width="5" stroke-linecap="round">
+        <path d="M55 100 H85 L92 108"/><path d="M145 100 H115 L108 108"/>
+      </g>
+      <circle cx="100" cy="100" r="4" fill="var(--amber)"/>
+    </svg>
+    <figcaption class="label cap">Attitude &amp; heading control</figcaption>
+  </figure>
+</header>
+
+<div class="strip" role="list">
+  <div role="listitem"><b>2</b><span>Peer-reviewed journal papers</span></div>
+  <div role="listitem"><b>3</b><span>Airframes flown: bi-, quad-, hexacopter</span></div>
+  <div role="listitem"><b>1000 W</b><span>Airborne AC-DC on tethered UAV</span></div>
+  <div role="listitem"><b>IDEAS 2024</b><span>Official exhibitor, Karachi</span></div>
+</div>
+
+<section id="about">
+  <div class="sec-head"><h2>Research focus</h2></div>
+  <div class="cols">
+    <div>
+      <p style="margin-top:0">My MS thesis at NUST tackled rotor-failure mitigation: when a quadcopter loses a rotor, the controller reconfigures it to fly as a tricopter. That work grew into a broader interest in controllers that stay stable when hardware fails, and in tuning them with optimisation instead of trial and error.</p>
+      <p>At NASTP I now work on the systems side: autopilot integration, telemetry routing, fail-safe logic and flight-envelope testing on Cube Orange and Pixhawk platforms.</p>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom:12px">Interests</div>
+      <ul class="chips">
+        <li>Nonlinear &amp; robust UAV control</li><li>Sliding mode &amp; higher-order SMC</li>
+        <li>Fault-tolerant multirotors</li><li>Optimisation-based tuning</li>
+        <li>Embedded flight control</li><li>Multi-UAV telemetry</li>
+        <li>Tethered long-endurance UAVs</li><li>Energy systems for UAVs</li>
+        <li>CIL / HIL validation</li><li>Autonomous aerial robotics</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="sec-head"><h2>Selected work</h2></div>
+
+  <article class="feature">
+    <div>
+      <div class="label">Research · SEECS, NUST · 2023–2025</div>
+      <h3>Nonlinear control for rotor-failure recovery</h3>
+      <p style="margin:0;color:var(--muted)">Flight controllers for bicopter, tricopter-transition, quadcopter and hexacopter platforms that hold attitude and heading and recover from a lost rotor.</p>
+      <ul>
+        <li>Designed SMC, Super-Twisting SMC, Terminal SMC, impulsive control and ITST-SMC.</li>
+        <li>Tuned controller gains with RedFox Optimization and Particle Swarm Optimization.</li>
+        <li>Validated in MATLAB/Simulink, then controller-in-the-loop and hardware-in-the-loop.</li>
+        <li>Result: faster settling, lower tracking error and stable recovery after rotor failure.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:16px;align-content:start">
+      <dl class="spec">
+        <dt>Thesis</dt><dd>Optimized Nonlinear Control for Rotor Failure Mitigation Using Quadcopter-to-Tricopter Transition</dd>
+        <dt>Output</dt><dd>First-author paper, Expert Systems with Applications (2026)</dd>
+        <dt>Tools</dt><dd>MATLAB, Simulink, SITL, CIL, HIL</dd>
+      </dl>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div>
+      <div class="label">Team lead · NUST · 2024</div>
+      <h3>Tethered UAV power system</h3>
+      <p style="margin:0;color:var(--muted)">A long-endurance multicopter powered from the ground, built to get past the flight-time limit of battery-only drones.</p>
+      <ul>
+        <li>Transmitted 220&nbsp;V&nbsp;AC up the tether to an airborne 1000&nbsp;W AC-DC converter.</li>
+        <li>Added a LiPo backup so the aircraft can recover safely if tether power drops.</li>
+        <li>Analysed power budget, tether resistance and voltage drop, cable loss, heat, tether mass and payload trade-offs.</li>
+        <li>Demonstrated as an official exhibitor at IDEAS 2024, Karachi.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:20px;align-content:start;min-width:0">
+    <div class="vids">
+      <figure>
+        <video id="vid-tether-1" src="media/tethered-flight-1.mp4" poster="media/poster-1.jpg" controls muted playsinline preload="metadata"></video>
+        <figcaption class="label">Flight test · launch to hover</figcaption>
+      </figure>
+    </div>
+    <dl class="spec">
+      <dt>Tether</dt><dd>220 V AC</dd>
+      <dt>Onboard</dt><dd>1000 W AC-DC converter</dd>
+      <dt>Backup</dt><dd>LiPo, emergency continuity</dd>
+      <dt>Shown at</dt><dd>IDEAS 2024 Defence Exhibition</dd>
+    </dl>
+    </div>
+  </article>
+
+  <div class="grid3">
+    <div class="card">
+      <div class="label">NASTP · 2026–now</div>
+      <h3>Autopilot &amp; avionics integration</h3>
+      <p>Cube Orange/Pixhawk integration with RTK-GNSS, telemetry modules and GCS links; MAVLink command translation, fail-safe validation and flight-envelope testing.</p>
+      <div class="tags"><span>MAVLink</span><span>RTK-GNSS</span><span>ArduPilot</span></div>
+    </div>
+    <div class="card">
+      <div class="label">Systems</div>
+      <h3>Multi-UAV telemetry network</h3>
+      <p>Point-to-point links with separate streams per aircraft, and a point-to-multipoint setup that runs several UAVs from one ground station.</p>
+      <div class="tags"><span>P2P</span><span>PMP</span><span>Mission Planner</span></div>
+    </div>
+    <div class="card">
+      <div class="label">Embedded</div>
+      <h3>STM32 bicopter controller</h3>
+      <p>Custom flight-control firmware for an inherently unstable two-rotor aircraft, with iterative gain tuning for stability and transient response.</p>
+      <div class="tags"><span>STM32</span><span>Real-time</span><span>Gain tuning</span></div>
+    </div>
+    <div class="card">
+      <div class="label">Flight engineering</div>
+      <h3>Multicopter build &amp; flight test</h3>
+      <p>Led integration of quad, bi- and hexacopters on Pixhawk 4, 6C and Cube Orange+: propulsion, power, GNSS, calibration, waypoint missions and log analysis.</p>
+      <div class="tags"><span>PX4</span><span>QGroundControl</span><span>BLDC/ESC</span></div>
+    </div>
+    <div class="card">
+      <div class="label">Team lead · EV Lab, NUST</div>
+      <h3>Level 2 EV charger</h3>
+      <p>System-level power-electronics analysis, component selection, bill of materials and safety and compatibility review for a Level 2 charger.</p>
+      <div class="tags"><span>Power electronics</span><span>BOM</span></div>
+    </div>
+    <div class="card">
+      <div class="label">Computer vision</div>
+      <h3>Tello real-time tracking</h3>
+      <p>Python object detection that lets a Tello drone find and follow a target on its own, without continuous remote control.</p>
+      <div class="tags"><span>Python</span><span>Detection</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="sec-head"><h2>Publications</h2></div>
+  <div class="pub">
+    <div class="yr">2026</div>
+    <div>
+      <h3>Optimized nonlinear control for attitude and heading control of a UAV and controller-in-loop using Redfox algorithm</h3>
+      <p class="meta"><b>Shah, M. N.</b>, Mughees, A., &amp; Ahmad, I. · <i>Expert Systems with Applications</i>, 300, 130251 · First author</p>
+      <a href="https://doi.org/10.1016/j.eswa.2025.130251" target="_blank" rel="noopener">doi.org/10.1016/j.eswa.2025.130251 ↗</a>
+    </div>
+  </div>
+  <div class="pub">
+    <div class="yr">2025</div>
+    <div>
+      <h3>Phasor particle swarm optimization-based control for quadcopter systems: An event-triggered impulsive super twisting approach</h3>
+      <p class="meta">Jadoon, A. N., Mughees, A., <b>Shah, M. N.</b>, &amp; Jadoon, M. N. · <i>Swarm and Evolutionary Computation</i>, 96, 101955</p>
+      <a href="https://doi.org/10.1016/j.swevo.2025.101955" target="_blank" rel="noopener">doi.org/10.1016/j.swevo.2025.101955 ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="sec-head"><h2>Experience</h2></div>
+  <ol class="tl" reversed>
+    <li><div class="when">Mar 2026 – Present</div><div><h3>Research Officer<span class="now">NOW</span></h3><div class="org">National Aerospace Science &amp; Technology Park (NASTP)</div><p>UAV flight-control integration, telemetry networks, navigation data injection, fail-safe and flight-envelope testing, multi-UAV autonomy.</p></div></li>
+    <li><div class="when">Jan 2025 – Mar 2026</div><div><h3>Visiting Faculty</h3><div class="org">SEECS, NUST</div><p>Taught Digital Logic Design to undergraduate engineers across two appointments.</p></div></li>
+    <li><div class="when">Apr 2024 – Feb 2025</div><div><h3>Research Associate · Team Lead</h3><div class="org">SEECS, NUST</div><p>UAV systems, control engineering, power electronics and embedded hardware; led the tethered UAV and EV charger teams.</p></div></li>
+    <li><div class="when">Jan 2023 – Feb 2025</div><div><h3>Researcher · UAV Control Systems</h3><div class="org">SEECS, NUST</div><p>Nonlinear and fault-tolerant control research with CIL/HIL validation.</p></div></li>
+  </ol>
+</section>
+
+<section id="skills">
+  <div class="sec-head"><h2>Skills &amp; tools</h2></div>
+  <div class="skills">
+    <div><h3>Control</h3><p>SMC, Super-Twisting, Terminal SMC, ITST-SMC, impulsive control, rotor-failure mitigation, RedFox, PSO</p></div>
+    <div><h3>Flight stack</h3><p>ArduPilot, PX4, Mission Planner, QGroundControl, MAVLink · Pixhawk 4, Pixhawk 6C, Cube Orange+</p></div>
+    <div><h3>Embedded</h3><p>STM32 flight control, sensor and actuator interfacing, Arduino, wireless embedded links</p></div>
+    <div><h3>Power &amp; energy</h3><p>Tether power transmission, AC-DC conversion, LiPo backup, power budgeting, voltage-drop and loss analysis</p></div>
+    <div><h3>Simulation &amp; validation</h3><p>MATLAB, Simulink, SITL, CIL, HIL, autonomous flight validation</p></div>
+    <div><h3>Design &amp; code</h3><p>Python, Proteus, Multisim, KiCad, Altium, AutoCAD</p></div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="sec-head"><h2>Education &amp; recognition</h2></div>
+  <div class="edu">
+    <div><div class="label">2021 – 2024</div><h3>MS Electrical Engineering</h3><p>National University of Sciences and Technology (NUST), Islamabad</p><p>CGPA 3.40 / 4.00</p></div>
+    <div><div class="label">2016 – 2020</div><h3>BSc Electrical Engineering</h3><p>University of Engineering and Technology (UET), Peshawar</p><p>CGPA 3.47 / 4.00 · FYP: Fractional Order Lead Compensator</p></div>
+  </div>
+  <ul class="plain" style="margin-top:24px">
+    <li><b>IDEAS 2024</b>, Karachi: official exhibitor, tethered UAV system</li>
+    <li><b>Prime Minister's Laptop Scheme</b>, HEC Pakistan, for academic performance (2019)</li>
+    <li><b>English Access Microscholarship</b>, U.S. Department of State, two-year fully funded (2011)</li>
+    <li>Technical briefing on Quantum Internet, NUST (2022) · Reinforcement Learning Onramp, MathWorks (2023)</li>
+  </ul>
+</section>
+
+<section id="contact" style="padding-top:0">
+  <div class="contact">
+    <div>
+      <div class="label">Open to PhD positions and UAV R&amp;D roles</div>
+      <h2 style="margin:6px 0 10px">Let's talk about flight control or UAV power systems</h2>
+      <div class="email" id="email">nashit.shah1@gmail.com</div>
+    </div>
+    <div class="cta">
+      <button class="btn primary" id="copy" type="button">Copy email</button>
+      <a class="btn" href="https://www.linkedin.com/in/mohammad-nashit-shah-b78a59150/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=91til5YAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Mohammad Nashit Shah · Islamabad, Pakistan</footer>
+</div>
+
+<script>
+document.getElementById('copy').addEventListener('click', function(){
+  var b=this, t=document.getElementById('email').textContent;
+  function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},1800)}
+  function fallback(){var r=document.createRange();r.selectNodeContents(document.getElementById('email'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected, press Ctrl+C'}
+  try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
+});
+</script>
+
+</body>
+</html>
