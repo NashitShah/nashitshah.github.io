@@ -56,6 +56,11 @@ nav ul a:hover{color:var(--accent)}
 .vids figure{margin:0;min-width:0}
 .vids video{display:block;width:100%;max-width:100%;aspect-ratio:480/848;object-fit:cover;border-radius:8px;background:var(--ink);border:1px solid var(--line)}
 .vids figcaption{margin-top:6px}
+.vids.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.vids.wide{grid-template-columns:minmax(0,1fr)}
+.vids.wide video{aspect-ratio:16/9}
+.vids.tall{grid-template-columns:minmax(0,280px)}
+.vids img{display:block;width:100%;max-width:100%;aspect-ratio:480/848;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
 .adi{width:220px;max-width:100%}
 .adi svg{display:block;width:100%;height:auto}
 .adi .cap{text-align:center;margin-top:8px}
@@ -89,7 +94,7 @@ section{padding-block:64px 8px}
 .spec{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px;margin:0}
 .spec dt{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
 .spec dd{margin:0}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{border-top:2px solid var(--ink);padding-top:14px;min-width:0}
 .card h3{font-size:19px;font-weight:600;margin:4px 0 8px}
 .card p{margin:0;color:var(--muted);font-size:15px}
@@ -176,6 +181,7 @@ footer{padding-block:24px 40px;color:var(--muted);font-size:13px;border-top:1px 
       <a class="btn" href="https://doi.org/10.1016/j.eswa.2025.130251" target="_blank" rel="noopener">Latest paper ↗</a>
       <a class="btn" href="https://scholar.google.com/citations?user=91til5YAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
       <a class="btn" href="https://www.linkedin.com/in/mohammad-nashit-shah-b78a59150/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="Mohammad_Nashit_Shah_Portfolio.pdf" target="_blank" rel="noopener">Portfolio (PDF) ↗</a>
     </div>
   </div>
   <figure class="adi" aria-label="Attitude indicator illustration" style="margin:0">
@@ -272,17 +278,131 @@ footer{padding-block:24px 40px;color:var(--muted);font-size:13px;border-top:1px 
       </ul>
     </div>
     <div style="display:grid;gap:20px;align-content:start;min-width:0">
-    <div class="vids">
+    <div class="vids two">
       <figure>
         <video id="vid-tether-1" src="tethered-flight-1.mp4" poster="poster-1.jpg" controls muted playsinline preload="metadata"></video>
         <figcaption class="label">Flight test · launch to hover</figcaption>
       </figure>
+      <figure>
+        <img src="ideas2024-stand.jpg" alt="Mohammad Nashit Shah presenting the tethered UAV at the NUST stand, IDEAS 2024" loading="lazy">
+        <figcaption class="label">IDEAS 2024 · NUST stand</figcaption>
+      </figure>
     </div>
     <dl class="spec">
-      <dt>Tether</dt><dd>220 V AC</dd>
+      <dt>Tether</dt><dd>20 m, 220 V AC</dd>
+      <dt>Altitude</dt><dd>20 m reached in flight test</dd>
       <dt>Onboard</dt><dd>1000 W AC-DC converter</dd>
       <dt>Backup</dt><dd>LiPo, emergency continuity</dd>
       <dt>Shown at</dt><dd>IDEAS 2024 Defence Exhibition</dd>
+    </dl>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div>
+      <div class="label">Flight testing · autonomous mission</div>
+      <h3>Autonomous waypoint flight</h3>
+      <p style="margin:0;color:var(--muted)">A multirotor that took off, flew a planned waypoint route and landed with no pilot input.</p>
+      <ul>
+        <li>Integrated propulsion, power, GNSS, telemetry and flight-control electronics on Pixhawk-family autopilots.</li>
+        <li>Calibrated sensors and ESCs, tuned parameters and verified flight modes before autonomous flight.</li>
+        <li>Planned the mission in the ground control station and uploaded it over MAVLink.</li>
+        <li>Flew the mission at night: take-off, waypoint navigation and autonomous landing, then analysed the logs.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:20px;align-content:start;min-width:0">
+    <div class="vids wide">
+      <figure>
+        <video id="vid-auto-1" src="autonomous-flight.mp4" poster="poster-autonomous.jpg" controls muted playsinline preload="metadata"></video>
+        <figcaption class="label">Night mission · landing in the final 10 s</figcaption>
+      </figure>
+    </div>
+    <dl class="spec">
+      <dt>Mission</dt><dd>Take-off → waypoints → autonomous landing</dd>
+      <dt>Autopilot</dt><dd>Pixhawk family, ArduPilot / PX4</dd>
+      <dt>Ground control</dt><dd>Mission Planner / QGroundControl, MAVLink</dd>
+    </dl>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div>
+      <div class="label">Flight engineering · multirotor testing</div>
+      <h3>Multicopter integration &amp; flight testing</h3>
+      <p style="margin:0;color:var(--muted)">Building, setting up and flying multirotor UAVs, indoors in the lab and outdoors in open terrain.</p>
+      <ul>
+        <li>Led integration on Pixhawk 4, Pixhawk 6C and Cube Orange+: BLDC propulsion, ESCs, power distribution, GNSS and telemetry.</li>
+        <li>Calibrated sensors and ESCs, tuned parameters and verified each flight mode.</li>
+        <li>Piloted the test flights and analysed telemetry logs for stability, control response and system health.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:20px;align-content:start;min-width:0">
+    <div class="vids two">
+      <figure>
+        <video id="vid-flight-indoor" src="flight-test-indoor.mp4" poster="poster-indoor.jpg" controls muted playsinline preload="metadata" style="aspect-ratio:720/1000"></video>
+        <figcaption class="label">Indoor hover test · lab, Dec 2023</figcaption>
+      </figure>
+      <figure>
+        <video id="vid-flight-outdoor" src="flight-test-outdoor.mp4" poster="poster-outdoor.jpg" controls muted playsinline preload="metadata" style="aspect-ratio:720/670"></video>
+        <figcaption class="label">Outdoor flight test · open field</figcaption>
+      </figure>
+    </div>
+    <dl class="spec">
+      <dt>Autopilots</dt><dd>Pixhawk 4, Pixhawk 6C, Cube Orange+</dd>
+      <dt>Stack</dt><dd>ArduPilot, PX4, Mission Planner, QGroundControl</dd>
+    </dl>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div>
+      <div class="label">Embedded control · 2024</div>
+      <h3>STM32 bicopter flight controller</h3>
+      <p style="margin:0;color:var(--muted)">My own flight controller for a two-rotor UAV, whose attitude dynamics are strongly coupled and unstable without feedback.</p>
+      <ul>
+        <li>Built the control architecture on an STM32 from the embedded level: IMU reading, stabilising loop, actuator commands.</li>
+        <li>Ran sensing, control and actuation in a fixed-rate real-time loop.</li>
+        <li>Tested on a custom ground rig with a protective ring frame, so the real airframe could be tuned without crash risk.</li>
+        <li>Tuned the gains iteratively for stability and transient response.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:20px;align-content:start;min-width:0">
+    <div class="vids tall">
+      <figure>
+        <video id="vid-bicopter-1" src="bicopter-test.mp4" poster="poster-bicopter.jpg" controls muted playsinline preload="metadata"></video>
+        <figcaption class="label">Rig test · August 2024</figcaption>
+      </figure>
+    </div>
+    <dl class="spec">
+      <dt>Controller</dt><dd>STM32, custom real-time firmware</dd>
+      <dt>Platform</dt><dd>Custom two-rotor airframe on test rig</dd>
+      <dt>Links to</dt><dd>Rotor-failure thesis and ESWA paper</dd>
+    </dl>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div>
+      <div class="label">Embedded vision · STM32 + OpenCV</div>
+      <h3>Vision-based smart light system</h3>
+      <p style="margin:0;color:var(--muted)">A light that switches on when a camera sees a person and dims or brightens to match the light already in the room.</p>
+      <ul>
+        <li>Python and OpenCV detect a person in the laptop webcam feed.</li>
+        <li>The result goes over USB to an STM32 transmitter node, then wirelessly to an STM32 receiver node.</li>
+        <li>The receiver switches the light and sets its intensity from the measured ambient illumination.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:20px;align-content:start;min-width:0">
+    <div class="vids wide">
+      <figure>
+        <video id="vid-light-1" src="smart-light.mp4" poster="poster-smart-light.jpg" controls muted playsinline preload="metadata"></video>
+        <figcaption class="label">Demo · light turns on when a person is detected</figcaption>
+      </figure>
+    </div>
+    <dl class="spec">
+      <dt>Vision</dt><dd>Python, OpenCV, laptop webcam</dd>
+      <dt>Nodes</dt><dd>2 × STM32, USB + wireless link</dd>
+      <dt>Control</dt><dd>On/off by presence, intensity by ambient light</dd>
     </dl>
     </div>
   </article>
@@ -299,18 +419,6 @@ footer{padding-block:24px 40px;color:var(--muted);font-size:13px;border-top:1px 
       <h3>Multi-UAV telemetry network</h3>
       <p>Point-to-point links with separate streams per aircraft, and a point-to-multipoint setup that runs several UAVs from one ground station.</p>
       <div class="tags"><span>P2P</span><span>PMP</span><span>Mission Planner</span></div>
-    </div>
-    <div class="card">
-      <div class="label">Embedded</div>
-      <h3>STM32 bicopter controller</h3>
-      <p>Custom flight-control firmware for an inherently unstable two-rotor aircraft, with iterative gain tuning for stability and transient response.</p>
-      <div class="tags"><span>STM32</span><span>Real-time</span><span>Gain tuning</span></div>
-    </div>
-    <div class="card">
-      <div class="label">Flight engineering</div>
-      <h3>Multicopter build &amp; flight test</h3>
-      <p>Led integration of quad, bi- and hexacopters on Pixhawk 4, 6C and Cube Orange+: propulsion, power, GNSS, calibration, waypoint missions and log analysis.</p>
-      <div class="tags"><span>PX4</span><span>QGroundControl</span><span>BLDC/ESC</span></div>
     </div>
     <div class="card">
       <div class="label">Team lead · EV Lab, NUST</div>
@@ -394,6 +502,7 @@ footer{padding-block:24px 40px;color:var(--muted);font-size:13px;border-top:1px 
       <button class="btn primary" id="copy" type="button">Copy email</button>
       <a class="btn" href="https://www.linkedin.com/in/mohammad-nashit-shah-b78a59150/" target="_blank" rel="noopener">LinkedIn ↗</a>
       <a class="btn" href="https://scholar.google.com/citations?user=91til5YAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a class="btn" href="Mohammad_Nashit_Shah_Portfolio.pdf" target="_blank" rel="noopener">Portfolio (PDF) ↗</a>
     </div>
   </div>
 </section>
